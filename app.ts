@@ -1,24 +1,25 @@
-interface Pessoa {
-    nome: string
-    idade: number
-    profissao?: string
+const typeUser = {
+    adm: "Seja bem vindo admin",
+    estudante: "Voce e um estudante",
+    visitante: "voce pode apenas visualizar"
 }
 
-const pessoa: Pessoa = {
-    nome: "Nathan",
-    idade: 99,
+type IUser = keyof typeof typeUser // truque para tipar rapidamente com as chaves do objeto
+
+const user: IUser = "adm"
+
+if (user === "adm") {
+    console.log("if: " + typeUser.adm)
+} else if (user === 'estudante') {
+    console.log("if: " + typeUser.estudante)
+} else {
+    console.log("if: " + typeUser.visitante)
 }
 
-const pessoa2: Pessoa = {
-    nome: "Cleiton",
-    idade: 88,
-    profissao: "DEV"
+
+// Possui a mesma função que a do if acima
+function validateUser(user: IUser) {
+    console.log("fn: " + typeUser[user])
 }
 
-const pessoas: Pessoa[] = [pessoa, pessoa2];
-const pessoas2: Array<Pessoa> = [pessoa, pessoa2]; /* A Mesma declaração que a de cima */
-
-const arrayNumerico: number[] = [1, 2, 3];
-const arrayNumerico2: Array<number> = [1, 2, 3];/* A Mesma declaração que a de cima */
-
-const arrayNumStr2: Array<number | string> = [1, 2, 3, '1', '2'];
+validateUser(user);
