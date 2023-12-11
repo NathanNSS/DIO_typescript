@@ -1,25 +1,9 @@
-const typeUser = {
-    adm: "Seja bem vindo admin",
-    estudante: "Voce e um estudante",
-    visitante: "voce pode apenas visualizar"
+for (let i = 0; i < 10; i++) {
+    console.log(i)
 }
 
-type IUser = keyof typeof typeUser // truque para tipar rapidamente com as chaves do objeto
-
-const user: IUser = "adm"
-
-if (user === "adm") {
-    console.log("if: " + typeUser.adm)
-} else if (user === 'estudante') {
-    console.log("if: " + typeUser.estudante)
-} else {
-    console.log("if: " + typeUser.visitante)
+let i = 0
+while(i < 10){
+    console.log(i)
+    i++
 }
-
-
-// Possui a mesma função que a do if acima
-function validateUser(user: IUser) {
-    console.log("fn: " + typeUser[user])
-}
-
-validateUser(user);
