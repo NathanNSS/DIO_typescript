@@ -1,25 +1,23 @@
-const typeUser = {
-    adm: "Seja bem vindo admin",
-    estudante: "Voce e um estudante",
-    visitante: "voce pode apenas visualizar"
-}
+//Metodos de declara array
+let arr = [1,2,3] //[1,2,3] 
+const arr_ = new Array(1,2,3) //[1,2,3] !(e possivel construir o array vazios com espaços vazios assim: new Array(3) >> [undefined, undefined,undefined])
 
-type IUser = keyof typeof typeUser // truque para tipar rapidamente com as chaves do objeto
+//Forma de tipagem dos array
+const arr1: number[] = [1,2,3,4,5] 
+const arr2: string[] = ["1","2","3","4",'5']
 
-const user: IUser = "adm"
+//Alguns dos metodos do array
 
-if (user === "adm") {
-    console.log("if: " + typeUser.adm)
-} else if (user === 'estudante') {
-    console.log("if: " + typeUser.estudante)
-} else {
-    console.log("if: " + typeUser.visitante)
-}
+arr1.push(6) //Metodo push adiciona um item ao final do array 
+arr1.pop() //Metodo pop remove um item ao final do array
+
+arr1.unshift(0) //Metodo unshift adiciona um item ao inicio do array
+arr1.shift() //Metodo shift remove um item ao inicio do array
 
 
-// Possui a mesma função que a do if acima
-function validateUser(user: IUser) {
-    console.log("fn: " + typeUser[user])
-}
+//Uma das propiedade do array
 
-validateUser(user);
+arr1.length //Uma propiedade do array que recebe seu tamanho
+
+
+console.log(arr1)
