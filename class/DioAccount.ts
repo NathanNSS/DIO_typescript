@@ -1,8 +1,8 @@
 export abstract class DioAccount {
-    private name: string
+    private readonly name: string
     private readonly accountNumber: number
-    balance: number = 0
-    status:boolean = true
+    private balance: number = 0
+    private status:boolean = true
 
     constructor(name: string, accountNumber: number) {
         this.name = name
@@ -13,20 +13,25 @@ export abstract class DioAccount {
         return this.name
     }
 
-    setName(name: string) {
-        this.name = name
+    deposit(value:number) {
+        this.validateAccount()
+
+        this.balance += value
+        console.log("seu novo saldo: R$"+this.balance)
     }
 
-    deposit() {
-        if(this.validateAccount())
-        console.log("Voce fez um deposito na conta " + this.accountNumber)
+    withDraw(value:number) {
+        this.validateAccount()
+        
+        if(this.balance < value){
+            throw new Error("Conta possui saldo inferior a valor do saque!")
+        }
+
+        this.balance -= value
+        console.log(`Voce fez um saque de R$${value} na conta ${this.accountNumber}`)
     }
 
-    withDraw() {
-        console.log("Voce fez um saque na conta " + this.accountNumber)
-    }
-
-    private validateAccount(){
+    validateAccount(){
         if(this.status){
             return this.status
         }
