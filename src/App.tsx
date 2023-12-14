@@ -1,19 +1,21 @@
-import { Layout } from "./components/Layout";
+import { Box, Button, Center, Input } from "@chakra-ui/react";
 
 export default function App() {
   return (
-    <Layout>
-      <fieldset style={{ width: 'fit-content' }}>
-        <legend>Faça o Login</legend>
+    <Box minHeight="100vh" backgroundColor="#9413dc" padding="12px">
+      <Box backgroundColor="#FFF" borderRadius="25px" padding="12px">
+        <Center>
+          <h1>Faça o login</h1>
+        </Center>
+        <Input placeholder="email"/>
+        <Input placeholder="password"/>
 
-        <label htmlFor="email">Email:</label>
-        <input type="email" name="email" id="email" /><br/><br/>
-        
-        <label htmlFor="senha">Senha:</label>
-        <input type="password" name="senha" id="senha" /><br/><br/>
-
-        <button type="submit">Entrar</button>
-      </fieldset>
-    </Layout>
+        <Center>
+          <Button colorScheme="teal" size="sm" width="100%">
+            Button
+          </Button>
+        </Center>
+      </Box>
+    </Box>
   )
 }
