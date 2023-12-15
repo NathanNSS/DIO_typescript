@@ -1,3 +1,3 @@
-export function userLogin():void{
-    alert("Bem vindo!")
+export function userLogin(name :string):void{
+    alert("Bem vindo " + name)
 }
