@@ -1,7 +1,13 @@
-import { Card } from "./components/Card";
+
+
+import { Layout } from "./components/Layout";
+
+import { MainRoutes } from "./routes";
 
 export default function App() {
-  return (
-    <Card/>
-  )
+    return (
+        <Layout>
+            <MainRoutes />
+        </Layout>
+    )
 }

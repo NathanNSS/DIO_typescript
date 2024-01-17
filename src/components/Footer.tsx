@@ -1,5 +1,5 @@
 export function Footer(){
     return(
-        <header>Isso e um Footer</header>
+        <footer style={{position:'absolute', bottom:0}}>Isso e um Footer</footer>
     )
 }
