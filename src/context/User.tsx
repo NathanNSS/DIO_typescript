@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import api, { IUserData } from "../services/api";
+import { getAllLocalStorage } from "../services/storage";
 
 interface IUser{
     userData: IUserData;
@@ -13,10 +14,18 @@ export function UserData({children}: {children?: React.ReactNode}){
     const [userData, setUserData] = useState<IUserData>()
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
 
+    const storage = getAllLocalStorage();
+
     useEffect(()=>{
         api()
-        .then(res => setUserData(res))
-        .catch(err => console.log(err));
+          .then(res => setUserData(res))
+          .catch(err => console.log(err));
+
+        if(storage){
+            const {login} = JSON.parse(storage)
+            setIsLoggedIn(login)
+        } 
+        
     },[])
 
     if(!userData || typeof userData !== "object") return <></>      

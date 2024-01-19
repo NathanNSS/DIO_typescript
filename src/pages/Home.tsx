@@ -6,6 +6,7 @@ import { Button } from "../components/Button";
 import { userLogin } from "../services/userLogin";
 import { useUserData } from "../context/User";
 import { useNavigate } from "react-router-dom";
+import { changeLocalStorage } from "../services/storage";
 
 
 export default function Home() {
@@ -22,6 +23,7 @@ export default function Home() {
             if (!res) return  alert("Usuário invalido!")
             
             setIsLoggedIn(true)
+            changeLocalStorage({login:true})
             navigate("/conta/000")
             
         } catch (error) {

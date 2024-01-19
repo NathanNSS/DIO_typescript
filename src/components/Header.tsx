@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@chakra-ui/react";
 
 import { useUserData } from "../context/User";
+import { changeLocalStorage } from "../services/storage";
 
 export function Header() {
     const { isLoggedIn, setIsLoggedIn } = useUserData()
@@ -10,6 +11,7 @@ export function Header() {
 
     function logOut(){
         setIsLoggedIn(false)
+        changeLocalStorage({login:false})
         navigate("/")
     }
 

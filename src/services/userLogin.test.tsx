@@ -1,11 +1,7 @@
 import { describe, expect, test, vitest, vi } from "vitest";
 import { userLogin } from "./userLogin";
 
-const mockSetIsLoggedIn = vitest.fn()
-const mockNavigate = vitest.fn()
-
 window.alert =  vitest.fn() //remove o alerta do alert no terminal
-
 
 describe("Testes das funcionalidade de login", ()=>{
 
