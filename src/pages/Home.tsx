@@ -71,6 +71,10 @@ export default function Home() {
                     </Button>
                 </Center>
             </Card>
+            <Box style={{position:"absolute", top:0, right:0}}>
+                <p>usuario: <b>nathan@email.com</b></p>
+                <p>senha: <b>coxinha123</b></p>
+            </Box>
         </Box>
     )
 }
