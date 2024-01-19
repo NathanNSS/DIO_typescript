@@ -17,9 +17,9 @@ export default function Home() {
     const { setIsLoggedIn } = useUserData()
     const navigate = useNavigate()
 
-    async function validateUser(email: string) {
+    async function validateUser() {
         try {
-            const res = await userLogin({ email, password })
+            const res = await userLogin({ email:email.trim(), password:password.trim() })
 
             if (!res) return alert("Usuário invalido!")
 
@@ -52,24 +52,26 @@ export default function Home() {
     return (
         <Box minHeight="100vh" display="flex" flexDirection="column">
             <Card>
-                <Center>
-                    <Heading as='h4' size="md">
-                        Faça o login
-                    </Heading>
-                </Center>
-                <Input placeholder="email" onChange={(event) => setEmail(event.target.value)} />
-                <Input placeholder="password" type="password" onChange={(event) => setPassword(event.target.value)} />
+                <form style={{display:"flex", flexDirection:"column", gap:"16px"}} onSubmit={(event)=>{ event.preventDefault(); validateUser()}}>                
+                    <Center>
+                        <Heading as='h4' size="md">
+                            Faça o login
+                        </Heading>
+                    </Center>
+                    <Input placeholder="email" onChange={(event) => setEmail(event.target.value)}/>
+                    <Input placeholder="password" type="password" onChange={(event) => setPassword(event.target.value)} />
 
-                <Center>
-                    <Button
-                        size="md"
-                        colorScheme="green"
-                        width="95%"
-                        onClick={() => validateUser(email)}
-                    >
-                        Entrar
-                    </Button>
-                </Center>
+                    <Center>
+                        <Button
+                            type="submit"
+                            size="md"
+                            colorScheme="green"
+                            width="95%"
+                        >
+                            Entrar
+                        </Button>
+                    </Center>
+                </form>
             </Card>
             <Box style={{position:"absolute", top:0, right:0}}>
                 <p>usuario: <b>nathan@email.com</b></p>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Center, SimpleGrid, Spinner } from "@chakra-ui/react";
 
 import { CardInfo } from "../components/CardInfo";
@@ -34,11 +34,12 @@ export default function Conta() {
     const balance = userData.balance.toLocaleString("pt-BR", { style: 'currency', currency: "BRL" })
 
     return (
-        <Center>
+        <Center flexDirection="column" gap="16px">
             <SimpleGrid columns={2} spacing={8} paddingTop={16}>
                 <CardInfo mainContent={`Bem vindo ${name}`} content={dateTime} />
                 <CardInfo mainContent={`Saldo`} content={balance} />
             </SimpleGrid>
+            <Link style={{color:"red"}} to="/conta-info">Informações da Conta {'>>'}</Link>
         </Center>
     )
 }
