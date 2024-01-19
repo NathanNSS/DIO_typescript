@@ -1,10 +1,15 @@
 import api from "./api"
 
-export async function userLogin(email : string){
+interface ILogin{
+    email:string;
+    password:string;
+}
+
+export async function userLogin({email, password}:ILogin){
     
     const userData = await api()
 
-    if(email !== userData.email) return false
+    if(email !== userData.email || password !== userData.password ) return false
 
     return true
 

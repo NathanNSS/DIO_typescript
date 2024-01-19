@@ -1,5 +1,8 @@
-interface ILocalStorage{
-    login: boolean
+import { IUserData } from "./api";
+
+export interface ILocalStorage{
+    login: boolean;
+    userData?: IUserData
 }
 
 export const obj_localStorage = {

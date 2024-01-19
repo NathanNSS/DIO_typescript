@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import api, { IUserData } from "../services/api";
-import { getAllLocalStorage } from "../services/storage";
+import { IUserData } from "../services/api";
+import { ILocalStorage, getAllLocalStorage } from "../services/storage";
 
 interface IUser{
-    userData: IUserData;
+    userData?: IUserData;
     isLoggedIn: boolean;
     setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -17,18 +17,15 @@ export function UserData({children}: {children?: React.ReactNode}){
     const storage = getAllLocalStorage();
 
     useEffect(()=>{
-        api()
-          .then(res => setUserData(res))
-          .catch(err => console.log(err));
-
+        
         if(storage){
-            const {login} = JSON.parse(storage)
+            const {login, userData} = JSON.parse(storage) as ILocalStorage
             setIsLoggedIn(login)
+
+            if(login) setUserData(userData)
         } 
         
-    },[])
-
-    if(!userData || typeof userData !== "object") return <></>      
+    },[])        
 
     return(
         <UserContext.Provider value={{userData, isLoggedIn, setIsLoggedIn}}>
