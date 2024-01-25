@@ -1,4 +1,4 @@
-interface IUser{
+export interface IUser{
     name: string;
     email: string;
 }
@@ -11,7 +11,7 @@ const db = [
 ] as IUser[]
 
 
-function awaitFake<T>(response: T): Promise<T>{
+export function awaitFake<T>(response: T): Promise<T>{
     return new Promise<T>((resolve, reject) => {
         setTimeout(() => {
             resolve(response)
@@ -20,11 +20,15 @@ function awaitFake<T>(response: T): Promise<T>{
 }
 
 export class UserModel{
+    db: IUser[]
+    
+    constructor(dataBase = db){
+        this.db = dataBase
+    }
 
     async createUser(user:IUser){    
-        db.push(user)
-
-        return awaitFake(db)
+        this.db.push(user)
+        return awaitFake(this.db)
     }
     
     async getAllUser(){
