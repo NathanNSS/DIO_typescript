@@ -13,4 +13,8 @@ export class MockUserModel implements UserModel {
     getAllUser(): Promise<IUser[]> {
         return awaitFake(this.db)
     }
+
+    deleteUser(){
+        return awaitFake(this.db.length = 0)
+    }
 }

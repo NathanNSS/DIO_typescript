@@ -26,12 +26,16 @@ export class UserModel{
         this.db = dataBase
     }
 
+    async getAllUser(){
+        return awaitFake(db)
+    }
+
     async createUser(user:IUser){    
         this.db.push(user)
         return awaitFake(this.db)
     }
     
-    async getAllUser(){
-        return awaitFake(db)
+    async deleteUser(){
+        return awaitFake(this.db.length = 0)
     }
 }
