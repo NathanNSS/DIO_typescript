@@ -1,18 +1,26 @@
+import { fakeUser } from "../data.example"
 import { IUser, UserModel } from "./UserModel"
 
-const fakeUser = {
-    name:"nathan soares",
-    email:"nathan@email.com"
-} 
 
-describe("UserModel",()=>{
-    const mockerDB:IUser[] = []
-    const userModel = new UserModel(mockerDB)
 
-    test("Deve criar um usuário", async ()=>{
+jest.mock("../repositories/UserRepository")
+jest.mock("../database/orm.config", ()=>{
+    initialize: jest.fn()
+})
+
+const mockUserRepository = require("../repositories/UserRepository")
+
+describe("UserModel",  () => {
+    const userModel = new UserModel(mockUserRepository)
+    
+    test("Deve criar um usuário", async () => {
         jest.resetAllMocks()
+
+        mockUserRepository.createUser = jest.fn().mockImplementation(()=> Promise.resolve(fakeUser))
+
+        const response = await userModel.createUser(fakeUser)
         
-        await userModel.createUser(fakeUser)
-        expect(mockerDB[0]).toEqual(fakeUser)
+        expect(mockUserRepository.createUser).toHaveBeenCalled()
+        expect(response).toEqual(fakeUser)
     })
 })

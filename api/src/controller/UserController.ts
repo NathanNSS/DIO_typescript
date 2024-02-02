@@ -6,20 +6,24 @@ export class UserController {
 
     constructor(userModel = new UserModel()) {
         this.userModel = userModel;
-        this.getAllUser = this.getAllUser.bind(this) //Necessário para não perder o contexto de this. Utilizando "arrow fn" não perderia o contexto!
+        this.getUser = this.getUser.bind(this) //Necessário para não perder o contexto de this. Utilizando "arrow fn" não perderia o contexto!
         this.createUser = this.createUser.bind(this) 
         this.deleteUser = this.deleteUser.bind(this) 
     }
     
-    async getAllUser(req: Request, res: Response): Promise<Response> {
-        const dataUser = await this.userModel.getAllUser()
+    async getUser(req: Request, res: Response): Promise<Response> {
+        const reqClient = req.params
+
+        if(!reqClient.id) return res.status(400).json({message: "Bad Request, user id not provided"})
+
+        const dataUser = await this.userModel.getUser(reqClient.id)
         return res.status(200).json(dataUser)
     }
 
     async createUser(req: Request, res: Response): Promise<Response> {
         const dataBody = req.body
 
-        if (!dataBody.name || !dataBody.email) return res.status(400).json({message: "Bad Request, name or email not provided"})
+        if (!dataBody.name || !dataBody.email  || !dataBody.password) return res.status(400).json({message: "Bad Request, name or email not provided"})
 
 
         await this.userModel.createUser(dataBody)
@@ -28,8 +32,12 @@ export class UserController {
     }
 
     async deleteUser(req: Request, res: Response): Promise<Response>{
+        const reqClient = req.params
 
-        await this.userModel.deleteUser()
+        if(!reqClient.id) return res.status(400).json({message: "Bad Request, user id not provided"})
+
+        
+        await this.userModel.deleteUser(reqClient.id)
         return res.status(200).json({ message: "Usuários deletados com Sucesso" })
     }
 }

@@ -1,41 +1,31 @@
-export interface IUser{
-    name: string;
-    email: string;
+import { UserRepository } from "../repositories/UserRepository";
+import { typeORM } from "../database/orm.config"
+import { User } from "../entities/UserEntity";
+
+export interface IUser {
+    id_user?: string
+    name: string
+    email: string
+    password: string
 }
 
-const db = [
-    {
-        name: "cleiton campos",
-        email:"cleiton@email.com",
-    }
-] as IUser[]
+export class UserModel {
+    private userRepository: UserRepository
 
-
-export function awaitFake<T>(response: T): Promise<T>{
-    return new Promise<T>((resolve, reject) => {
-        setTimeout(() => {
-            resolve(response)
-        }, 1000);
-    })
-}
-
-export class UserModel{
-    db: IUser[]
-    
-    constructor(dataBase = db){
-        this.db = dataBase
+    constructor(userRepository = new UserRepository(typeORM.manager)) {
+        this.userRepository = userRepository
     }
 
-    async getAllUser(){
-        return awaitFake(db)
+    async getUser(idUser: string) {
+        return this.userRepository.getUser(idUser)
     }
 
-    async createUser(user:IUser){    
-        this.db.push(user)
-        return awaitFake(this.db)
+    async createUser(user: IUser): Promise<User> {
+        const newUser = new User(user.name, user.email, user.password)
+        return this.userRepository.createUser(newUser)
     }
-    
-    async deleteUser(){
-        return awaitFake(this.db.length = 0)
+
+    async deleteUser(idUser: string) {
+        return this.userRepository.deleteUser(idUser)
     }
 }

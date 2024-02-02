@@ -1,20 +1,33 @@
-import { IUser, UserModel, awaitFake } from "../models/UserModel";
+import { User } from "../entities/UserEntity";
+import { IUser, UserModel} from "../models/UserModel";
 
-export class MockUserModel implements UserModel {
-    db: IUser[] = [];
+export function awaitFake<T>(response: T): Promise<T>{
+    return new Promise<T>((resolve, reject) => {
+        setTimeout(() => {
+            resolve(response)
+        }, 1000);
+    })
+}
 
+export class MockUserModel extends UserModel{
+    db: User[] = [];
+    //@ts-ignore || Testar futuramente este método de fazer
     constructor() { }
 
-    createUser(user: IUser): Promise<IUser[]> {
-        this.db.push(user)
-        return awaitFake(this.db)
+    createUser(user: IUser): Promise<User> {
+
+        this.db.push(new User(user.name, user.email, user.password))
+        return awaitFake(this.db.at(-1)!!)
     }
 
-    getAllUser(): Promise<IUser[]> {
-        return awaitFake(this.db)
+    getUser(idUser: string): Promise<User> {
+        const response = this.db.filter(user => user.id_user === idUser)
+        return awaitFake(response[0])
     }
 
-    deleteUser(){
-        return awaitFake(this.db.length = 0)
+    deleteUser(idUser: string){
+        const response = this.db.filter(user => user.id_user !== idUser)
+        this.db = response
+        return awaitFake({message:"Deletado!"})
     }
 }
