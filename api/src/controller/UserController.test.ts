@@ -1,9 +1,10 @@
 import {Request} from "express"
+
 import { UserModel } from "../models/UserModel"
 import { UserController } from "./UserController"
 import { makeMockResponse } from "../__mocks__/mockResponse.mock"
-import { MockUserModel } from "../__mocks__/mockUserModel.mock"
 import { fakeUser } from "../data.example"
+import { makeMockRequest } from "../__mocks__/mockRequest.mock"
 
 
 const mockUserModel : Partial<UserModel> = {
@@ -14,13 +15,13 @@ const mockUserModel : Partial<UserModel> = {
 
 jest.mock("../models/UserModel", ()=>{
     return {
-        UserModel:  jest.fn().mockImplementation(()=> {
-            return {
-                createUser: jest.fn()
-            }
-        })
+        UserModel:  jest.fn().mockImplementation(()=>  mockUserModel)
     }
 })
+
+afterEach(() => {
+    jest.resetAllMocks();
+});
 
 describe("UserController", ()=>{
 
@@ -51,15 +52,36 @@ describe("UserController", ()=>{
     })
 
     test("Deve chamar a função 'getUser' ao consultar usuários ", async ()=>{
-        jest.resetAllMocks()
+        const spyGetUser = jest.spyOn(mockUserModel, "getUser")
+        
+        const newMockRequest = makeMockRequest({
+            params: {
+                id: "abd7a0cb-de10-4e48-abf7-5645981303a3",
+            }
+        })
 
-        // const spyGetAllUser = jest.spyOn(mockUserModel, "getUser")
+        const mockResponse = makeMockResponse()
 
-        // const mockResponse = makeMockResponse()
-        // await userController.getAllUser(mockRequest, mockResponse)
+        await userController.getUser(newMockRequest, mockResponse)
 
-        // expect(spyGetAllUser).toHaveBeenCalled()
+        expect(spyGetUser).toHaveBeenCalled()
     })
+
+    test("Deve retornar um status code '400' caso não seja passado o id", async ()=>{
+
+        const newMockRequest = makeMockRequest({
+            params: {
+                id: undefined!
+            }
+        })
+
+        const mockResponse = makeMockResponse()
+
+        await userController.getUser(newMockRequest, mockResponse)
+
+        expect(mockResponse.state.status).toBe(400)
+    })
+
 
     test("Deve deletar todos os usuários", async ()=>{
         jest.resetAllMocks()

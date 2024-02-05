@@ -20,6 +20,14 @@ export class UserRepository{
         })
     }
     
+    async getUserByNameThePassword(email: string, password:string): Promise<User | null>{
+        return this.manager.findOne(User, {
+            where:{
+                email, password
+            }
+        })
+    }
+    
     async deleteUser(idUser: string): Promise<object>{
         return this.manager.delete(User, {'id_user': idUser})
     }
